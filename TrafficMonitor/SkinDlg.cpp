@@ -39,7 +39,7 @@ void CSkinDlg::LoadSkinLayout(const wstring& cfg_path, LayoutData& layout_data)
 	layout_data.no_text = ini.GetBool(_T("layout"), _T("no_text"), false);
 
 	layout_data.width_l = theApp.DPI(ini.GetInt(_T("layout"), _T("width_l"), 220));
-	layout_data.height_l = theApp.DPI(ini.GetInt(_T("layout"), _T("height_l"), 43));
+	layout_data.height_l = theApp.DPI(ini.GetInt(_T("layout"), _T("height_l"), 43+19+2));
 	layout_data.up_x_l = theApp.DPI(ini.GetInt(_T("layout"), _T("up_x_l"), 6));
 	layout_data.up_y_l = theApp.DPI(ini.GetInt(_T("layout"), _T("up_y_l"), 2));
 	layout_data.up_width_l = theApp.DPI(ini.GetInt(_T("layout"), _T("up_width_l"), 108));
@@ -56,10 +56,15 @@ void CSkinDlg::LoadSkinLayout(const wstring& cfg_path, LayoutData& layout_data)
 	layout_data.memory_y_l = theApp.DPI(ini.GetInt(_T("layout"), _T("memory_y_l"), 21));
 	layout_data.memory_width_l = theApp.DPI(ini.GetInt(_T("layout"), _T("memory_width_l"), 110));
 	layout_data.memory_align_l = static_cast<Alignment>(ini.GetInt(_T("layout"), _T("memory_align_l"), 0));
+	layout_data.date_time_x_l = theApp.DPI(ini.GetInt(_T("layout"), _T("date_time_x_l"), 6));
+	layout_data.date_time_y_l = theApp.DPI(ini.GetInt(_T("layout"), _T("date_time_y_l"), 21+2+19));
+	layout_data.date_time_width_l = theApp.DPI(ini.GetInt(_T("layout"), _T("date_time_width_l"), 108+110));
+	layout_data.date_time_aligh_l = static_cast<Alignment>(ini.GetInt(_T("layout"), _T("date_time_aligh_l"), 0));
 	layout_data.show_up_l = ini.GetBool(_T("layout"), _T("show_up_l"), true);
 	layout_data.show_down_l = ini.GetBool(_T("layout"), _T("show_down_l"), true);
 	layout_data.show_cpu_l = ini.GetBool(_T("layout"), _T("show_cpu_l"), true);
 	layout_data.show_memory_l = ini.GetBool(_T("layout"), _T("show_memory_l"), true);
+	layout_data.show_date_time_l = ini.GetBool(_T("layout"), _T("show_date_time_l"), true);
 	layout_data.preview_x_l = theApp.DPI(ini.GetInt(_T("layout"), _T("preview_x_l"), 0));
 	layout_data.preview_y_l = theApp.DPI(ini.GetInt(_T("layout"), _T("preview_y_l"), 47));
 
@@ -81,10 +86,15 @@ void CSkinDlg::LoadSkinLayout(const wstring& cfg_path, LayoutData& layout_data)
 	layout_data.memory_y_s = theApp.DPI(ini.GetInt(_T("layout"), _T("memory_y_s"), 0));
 	layout_data.memory_width_s = theApp.DPI(ini.GetInt(_T("layout"), _T("memory_width_s"), 0));
 	layout_data.memory_align_s = static_cast<Alignment>(ini.GetInt(_T("layout"), _T("memory_align_s"), 0));
+	layout_data.date_time_x_s = theApp.DPI(ini.GetInt(_T("layout"), _T("date_time_x_s"), 0));
+	layout_data.date_time_y_s = theApp.DPI(ini.GetInt(_T("layout"), _T("date_time_y_s"), 0));
+	layout_data.date_time_width_s = theApp.DPI(ini.GetInt(_T("layout"), _T("date_time_width_s"), 0));
+	layout_data.date_time_aligh_s = static_cast<Alignment>(ini.GetInt(_T("layout"), _T("date_time_aligh_s"), 0));
 	layout_data.show_up_s = ini.GetBool(_T("layout"), _T("show_up_s"), true);
 	layout_data.show_down_s = ini.GetBool(_T("layout"), _T("show_down_s"), true);
 	layout_data.show_cpu_s = ini.GetBool(_T("layout"), _T("show_cpu_s"), false);
 	layout_data.show_memory_s = ini.GetBool(_T("layout"), _T("show_memory_s"), false);
+	layout_data.show_date_time_s = ini.GetBool(_T("layout"), _T("show_date_time_s"), false);
 	layout_data.preview_x_s = theApp.DPI(ini.GetInt(_T("layout"), _T("preview_x_s"), 0));
 	layout_data.preview_y_s = theApp.DPI(ini.GetInt(_T("layout"), _T("preview_y_s"), 0));
 }

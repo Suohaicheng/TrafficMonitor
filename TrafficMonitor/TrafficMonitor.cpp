@@ -78,6 +78,7 @@ void CTrafficMonitorApp::LoadConfig()
 	m_main_wnd_data.disp_str.down = ini.GetString(L"config", L"down_string", CCommon::LoadText(IDS_DOWNLOAD_DISP, _T(": $")));
 	m_main_wnd_data.disp_str.cpu = ini.GetString(L"config", L"cpu_string", L"CPU: $");
 	m_main_wnd_data.disp_str.memory = ini.GetString(L"config", L"memory_string", CCommon::LoadText(IDS_MEMORY_DISP, _T(": $")));
+	m_main_wnd_data.disp_str.date_time = ini.GetString(L"config", L"date_time_string", CCommon::LoadText(IDS_DATE_TIME_DISP, _T(": $")));
 
 	m_main_wnd_data.speed_short_mode = ini.GetBool(_T("config"), _T("speed_short_mode"), false);
 	m_main_wnd_data.separate_value_unit_with_space = ini.GetBool(_T("config"), _T("separate_value_unit_with_space"), true);

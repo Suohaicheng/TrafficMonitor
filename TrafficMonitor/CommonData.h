@@ -60,6 +60,7 @@ struct DispStrings		//显示的文本
 	wstring down;
 	wstring cpu;
 	wstring memory;
+	wstring date_time;
 	void operator=(const DispStrings& disp_str)		//重载赋值运算符
 	{
 		//如果赋值的字符串是定义的无效字符串，则不赋值
@@ -71,10 +72,13 @@ struct DispStrings		//显示的文本
 			cpu = disp_str.cpu;
 		if (disp_str.memory != NONE_STR)
 			memory = disp_str.memory;
+		if (disp_str.date_time != NONE_STR)
+			date_time = disp_str.date_time;
 	}
 	bool IsInvalid() const
 	{
-		return (up == NONE_STR && down == NONE_STR && cpu == NONE_STR && memory == NONE_STR);
+		return (up == NONE_STR && down == NONE_STR && cpu == NONE_STR && 
+			memory == NONE_STR && date_time == NONE_STR);
 	}
 };
 
@@ -238,6 +242,13 @@ struct LayoutData
 	int memory_width_l;		//“内存”的宽度
 	Alignment memory_align_l;	//“内存”的对齐方式
 	bool show_memory_l;		//是否显示“内存”
+
+	int date_time_x_l;
+	int date_time_y_l;
+	int date_time_width_l;
+	Alignment date_time_aligh_l;
+	bool show_date_time_l;
+		
 	int preview_x_l;		//在“选择皮肤”界面中预览图的x坐标
 	int preview_y_l;		//在“选择皮肤”界面中预览图的y坐标
 
@@ -264,6 +275,13 @@ struct LayoutData
 	int memory_width_s;		//“内存”的宽度
 	Alignment memory_align_s;	//“内存”的对齐方式
 	bool show_memory_s;		//是否显示“内存”
+
+	int date_time_x_s;
+	int date_time_y_s;
+	int date_time_width_s;
+	Alignment date_time_aligh_s;
+	bool show_date_time_s;
+	
 	int preview_x_s;	//在“选择皮肤”界面中预览图的x坐标
 	int preview_y_s;	//在“选择皮肤”界面中预览图的y坐标
 };

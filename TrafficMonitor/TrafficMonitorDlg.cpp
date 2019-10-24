@@ -42,6 +42,7 @@ void CTrafficMonitorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_STATIC_DOWN, m_disp_down);
 	DDX_Control(pDX, IDC_STATIC_CPU, m_disp_cpu);
 	DDX_Control(pDX, IDC_STATIC_MEMORY, m_disp_memory);
+	DDX_Control(pDX, IDC_STATIC_DATE_TIME, m_disp_date_time);
 }
 
 BEGIN_MESSAGE_MAP(CTrafficMonitorDlg, CDialogEx)
@@ -101,6 +102,9 @@ void CTrafficMonitorDlg::ShowInfo()
 	CString out_speed = CCommon::DataSizeToString(theApp.m_out_speed, theApp.m_main_wnd_data);
 
 	CString format_str;
+
+	//SYSTEMTIME curTime;
+	
 	if (theApp.m_main_wnd_data.hide_unit && theApp.m_main_wnd_data.speed_unit != SpeedUnit::AUTO)
 		format_str = _T("%s%s");
 	else
@@ -127,6 +131,15 @@ void CTrafficMonitorDlg::ShowInfo()
 	m_disp_cpu.SetWindowTextEx(str, (theApp.m_cfg_data.m_show_more_info ? m_layout_data.cpu_align_l : m_layout_data.cpu_align_s));
 	str.Format(format_str, (m_layout_data.no_text ? _T("") : theApp.m_main_wnd_data.disp_str.memory.c_str()), theApp.m_memory_usage);
 	m_disp_memory.SetWindowTextEx(str, (theApp.m_cfg_data.m_show_more_info ? m_layout_data.memory_align_l : m_layout_data.memory_align_s));
+
+	//GetLocalTime(&curTime);
+	
+	str.Format(_T("%s%d/%02d/%02d,%02d:%02d"), (m_layout_data.no_text?  _T("") : theApp.m_main_wnd_data.disp_str.date_time.c_str()), 
+		m_cur_date_time.wYear,m_cur_date_time.wMonth, m_cur_date_time.wDay, 
+		m_cur_date_time.wHour, m_cur_date_time.wMinute);	
+	
+	m_disp_date_time.SetWindowTextEx(str, (theApp.m_cfg_data.m_show_more_info ? 
+			m_layout_data.date_time_aligh_l : m_layout_data.date_time_aligh_s));
 	//设置要显示的项目
 	if (theApp.m_cfg_data.m_show_more_info)
 	{
@@ -134,6 +147,7 @@ void CTrafficMonitorDlg::ShowInfo()
 		m_disp_down.ShowWindow(m_layout_data.show_down_l ? SW_SHOW : SW_HIDE);
 		m_disp_cpu.ShowWindow(m_layout_data.show_cpu_l ? SW_SHOW : SW_HIDE);
 		m_disp_memory.ShowWindow(m_layout_data.show_memory_l ? SW_SHOW : SW_HIDE);
+		m_disp_date_time.ShowWindow(SW_SHOW);
 	}
 	else
 	{
@@ -142,6 +156,7 @@ void CTrafficMonitorDlg::ShowInfo()
 		m_disp_cpu.ShowWindow(m_layout_data.show_cpu_s ? SW_SHOW : SW_HIDE);
 		m_disp_memory.ShowWindow(m_layout_data.show_memory_s ? SW_SHOW : SW_HIDE);
 	}
+
 }
 
 CString CTrafficMonitorDlg::GetMouseTipsInfo()
@@ -595,11 +610,11 @@ void CTrafficMonitorDlg::LoadHistoryTraffic()
 		}
 	}
 
-	SYSTEMTIME current_time;
-	GetLocalTime(&current_time);
-	traffic.year = current_time.wYear;
-	traffic.month = current_time.wMonth;
-	traffic.day = current_time.wDay;
+	SYSTEMTIME *current_time = &m_start_time;
+	//GetLocalTime(current_time);
+	traffic.year = current_time->wYear;
+	traffic.month = current_time->wMonth;
+	traffic.day = current_time->wDay;
 	traffic.up_kBytes = 0;
 	traffic.down_kBytes = 0;
 	traffic.mixed = false;
@@ -687,6 +702,8 @@ void CTrafficMonitorDlg::SetItemPosition()
 		m_disp_down.MoveWindow(m_layout_data.down_x_l, m_layout_data.down_y_l, m_layout_data.down_width_l, m_layout_data.text_height);
 		m_disp_cpu.MoveWindow(m_layout_data.cpu_x_l, m_layout_data.cpu_y_l, m_layout_data.cpu_width_l, m_layout_data.text_height);
 		m_disp_memory.MoveWindow(m_layout_data.memory_x_l, m_layout_data.memory_y_l, m_layout_data.memory_width_l, m_layout_data.text_height);
+		m_disp_date_time.MoveWindow(m_layout_data.date_time_x_l, m_layout_data.date_time_y_l, 
+			m_layout_data.date_time_width_l, m_layout_data.text_height);
 	}
 	else
 	{
@@ -695,6 +712,8 @@ void CTrafficMonitorDlg::SetItemPosition()
 		m_disp_down.MoveWindow(m_layout_data.down_x_s, m_layout_data.down_y_s, m_layout_data.down_width_s, m_layout_data.text_height);
 		m_disp_cpu.MoveWindow(m_layout_data.cpu_x_s, m_layout_data.cpu_y_s, m_layout_data.cpu_width_s, m_layout_data.text_height);
 		m_disp_memory.MoveWindow(m_layout_data.memory_x_s, m_layout_data.memory_y_s, m_layout_data.memory_width_s, m_layout_data.text_height);
+		m_disp_date_time.MoveWindow(m_layout_data.date_time_x_s, m_layout_data.date_time_y_s, 
+			m_layout_data.date_time_width_s, m_layout_data.text_height);
 	}
 }
 
@@ -771,6 +790,7 @@ void CTrafficMonitorDlg::SetTextColor()
 	m_disp_down.SetTextColor(text_colors[1]);
 	m_disp_cpu.SetTextColor(text_colors[2]);
 	m_disp_memory.SetTextColor(text_colors[3]);
+	m_disp_date_time.SetTextColor(text_colors[3]);
 }
 
 void CTrafficMonitorDlg::SetTextFont()
@@ -794,6 +814,7 @@ void CTrafficMonitorDlg::SetTextFont()
 		theApp.m_main_wnd_data.font.name);
 	m_disp_cpu.SetFont(&m_font);
 	m_disp_memory.SetFont(&m_font);
+	m_disp_date_time.SetFont(&m_font);
 	m_disp_up.SetFont(&m_font);
 	m_disp_down.SetFont(&m_font);
 }
@@ -817,7 +838,7 @@ BOOL CTrafficMonitorDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
-	// TODO: 在此添加额外的初始化代码
+	// /TODO: 在此添加额外的初始化代码
 	SetWindowText(_T("TrafficMonitor"));
 	//设置隐藏任务栏图标
 	ModifyStyleEx(WS_EX_APPWINDOW, WS_EX_TOOLWINDOW);
@@ -860,6 +881,12 @@ BOOL CTrafficMonitorDlg::OnInitDialog()
 	if (theApp.m_cfg_data.m_show_notify_icon)
 		::Shell_NotifyIcon(NIM_ADD, &m_ntIcon);	//在系统通知区域增加这个图标
 
+
+	#if 1
+	//获取启动时的时间
+	GetLocalTime(&m_start_time);
+	#endif
+
 	//载入流量历史记录
 	LoadHistoryTraffic();
 
@@ -894,10 +921,10 @@ BOOL CTrafficMonitorDlg::OnInitDialog()
 
 	//设置文字颜色
 	SetTextColor();
-
+	#if 0
 	//获取启动时的时间
 	GetLocalTime(&m_start_time);
-
+	#endif
 	//初始化鼠标提示
 	m_tool_tips.Create(this, TTS_ALWAYSTIP);
 	m_tool_tips.SetMaxTipWidth(600);
@@ -923,7 +950,7 @@ HCURSOR CTrafficMonitorDlg::OnQueryDragIcon()
 
 void CTrafficMonitorDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	// /TODO: 在此添加消息处理程序代码和/或调用默认值
 	if (nIDEvent == MAIN_TIMER)
 	{
 		if (m_first_start)		//这个if语句在程序启动后1秒执行
@@ -1068,14 +1095,14 @@ void CTrafficMonitorDlg::OnTimer(UINT_PTR nIDEvent)
 		}
 
 		//检测当前日期是否改变，如果已改变，就向历史流量列表插入一个新的日期
-		SYSTEMTIME current_time;
-		GetLocalTime(&current_time);
-		if (m_history_traffics[0].day != current_time.wDay)
+		SYSTEMTIME *current_time = &m_cur_date_time;
+		GetLocalTime(current_time);
+		if (m_history_traffics[0].day != current_time->wDay)
 		{
 			HistoryTraffic traffic;
-			traffic.year = current_time.wYear;
-			traffic.month = current_time.wMonth;
-			traffic.day = current_time.wDay;
+			traffic.year = current_time->wYear;
+			traffic.month = current_time->wMonth;
+			traffic.day = current_time->wDay;
 			traffic.mixed = false;
 			m_history_traffics.push_front(traffic);
 			theApp.m_today_up_traffic = 0;

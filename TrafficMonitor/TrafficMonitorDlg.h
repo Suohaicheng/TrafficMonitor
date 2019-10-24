@@ -66,6 +66,7 @@ protected:
 	CStaticEx m_disp_down;	//显示下载的文本控件
 	CStaticEx m_disp_cpu;	//显示CPU利用率的文本控件
 	CStaticEx m_disp_memory;	//显示内存利用率的文本控件
+	CStaticEx m_disp_date_time;//显示日期时间的文本控件 #suohaicheng @2019.10.17
 
 	CFont m_font;			//字体
 
@@ -81,6 +82,7 @@ protected:
 	int m_skin_selected{};		//选择的皮肤序号
 
 	SYSTEMTIME m_start_time;	//程序启动时的时间
+	SYSTEMTIME m_cur_date_time;//程序运行当前时间的缓存变量，可以多次使用
 	deque<HistoryTraffic> m_history_traffics;	//储存历史流量
 
 	CToolTipCtrl m_tool_tips;
